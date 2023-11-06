@@ -25,12 +25,54 @@ public :
    Int_t           fCurrent; //!current Tree number in a TChain
 
    TFile *fileName;
-   TH1F *h_jetet_bx0_u, *h_jetet_bxm1_u, *h_jetet_bx0_bxm1_u, *h_jetet_bxm2_u, *h_jetet_bx0_bxm2_u;
-   TH1F *h_jeteta_bx0_u, *h_jeteta_bxm1_u, *h_jeteta_bx0_bxm1_u, *h_jeteta_bxm2_u, *h_jeteta_bx0_bxm2_u;
-   TH2F *h_jetetaphi_bx0_u, *h_jetetaphi_bxm1_u, *h_jetetaphi_bx0_bxm1_u, *h_jetetaphi_bxm2_u, *h_jetetaphi_bx0_bxm2_u;
-   TH1F *h_jetet_bx0_f, *h_jetet_bxm1_f, *h_jetet_bx0_bxm1_f, *h_jetet_bxm2_f, *h_jetet_bx0_bxm2_f;
-   TH1F *h_jeteta_bx0_f, *h_jeteta_bxm1_f, *h_jeteta_bx0_bxm1_f, *h_jeteta_bxm2_f, *h_jeteta_bx0_bxm2_f;
-   TH2F *h_jetetaphi_bx0_f, *h_jetetaphi_bxm1_f, *h_jetetaphi_bx0_bxm1_f, *h_jetetaphi_bxm2_f, *h_jetetaphi_bx0_bxm2_f;
+
+   TH1F *h_prehcal_jetet_bx0_u, *h_prehcal_jetet_bxm1_60_u, *h_prehcal_jetet_bx0_bxm1_60_u, *h_prehcal_jetet_bxm2_60_u, *h_prehcal_jetet_bx0_bxm2_60_u;
+   TH1F *h_prehcal_jetet_bxm1_120_u, *h_prehcal_jetet_bx0_bxm1_120_u, *h_prehcal_jetet_bxm2_120_u, *h_prehcal_jetet_bx0_bxm2_120_u;
+   TH1F *h_prehcal_jetet_bxm1_180_u, *h_prehcal_jetet_bx0_bxm1_180_u, *h_prehcal_jetet_bxm2_180_u, *h_prehcal_jetet_bx0_bxm2_180_u;
+
+   TH1F *h_prehcal_jeteta_bx0_u, *h_prehcal_jeteta_bxm1_60_u, *h_prehcal_jeteta_bx0_bxm1_60_u, *h_prehcal_jeteta_bxm2_60_u, *h_prehcal_jeteta_bx0_bxm2_60_u;
+   TH1F *h_prehcal_jeteta_bxm1_120_u, *h_prehcal_jeteta_bx0_bxm1_120_u, *h_prehcal_jeteta_bxm2_120_u, *h_prehcal_jeteta_bx0_bxm2_120_u;
+   TH1F *h_prehcal_jeteta_bxm1_180_u, *h_prehcal_jeteta_bx0_bxm1_180_u, *h_prehcal_jeteta_bxm2_180_u, *h_prehcal_jeteta_bx0_bxm2_180_u;
+
+   TH2F *h_prehcal_jetetaphi_bx0_u, *h_prehcal_jetetaphi_bxm1_60_u, *h_prehcal_jetetaphi_bx0_bxm1_60_u, *h_prehcal_jetetaphi_bxm2_60_u, *h_prehcal_jetetaphi_bx0_bxm2_60_u;
+   TH2F *h_prehcal_jetetaphi_bxm1_120_u, *h_prehcal_jetetaphi_bx0_bxm1_120_u, *h_prehcal_jetetaphi_bxm2_120_u, *h_prehcal_jetetaphi_bx0_bxm2_120_u;
+   TH2F *h_prehcal_jetetaphi_bxm1_180_u, *h_prehcal_jetetaphi_bx0_bxm1_180_u, *h_prehcal_jetetaphi_bxm2_180_u, *h_prehcal_jetetaphi_bx0_bxm2_180_u;
+
+   TH1F *h_posthcal_jetet_bx0_u, *h_posthcal_jetet_bxm1_60_u, *h_posthcal_jetet_bx0_bxm1_60_u, *h_posthcal_jetet_bxm2_60_u, *h_posthcal_jetet_bx0_bxm2_60_u;
+   TH1F *h_posthcal_jetet_bxm1_120_u, *h_posthcal_jetet_bx0_bxm1_120_u, *h_posthcal_jetet_bxm2_120_u, *h_posthcal_jetet_bx0_bxm2_120_u;
+   TH1F *h_posthcal_jetet_bxm1_180_u, *h_posthcal_jetet_bx0_bxm1_180_u, *h_posthcal_jetet_bxm2_180_u, *h_posthcal_jetet_bx0_bxm2_180_u;
+
+   TH1F *h_posthcal_jeteta_bx0_u, *h_posthcal_jeteta_bxm1_60_u, *h_posthcal_jeteta_bx0_bxm1_60_u, *h_posthcal_jeteta_bxm2_60_u, *h_posthcal_jeteta_bx0_bxm2_60_u;
+   TH1F *h_posthcal_jeteta_bxm1_120_u, *h_posthcal_jeteta_bx0_bxm1_120_u, *h_posthcal_jeteta_bxm2_120_u, *h_posthcal_jeteta_bx0_bxm2_120_u;
+   TH1F *h_posthcal_jeteta_bxm1_180_u, *h_posthcal_jeteta_bx0_bxm1_180_u, *h_posthcal_jeteta_bxm2_180_u, *h_posthcal_jeteta_bx0_bxm2_180_u;
+
+   TH2F *h_posthcal_jetetaphi_bx0_u, *h_posthcal_jetetaphi_bxm1_60_u, *h_posthcal_jetetaphi_bx0_bxm1_60_u, *h_posthcal_jetetaphi_bxm2_60_u, *h_posthcal_jetetaphi_bx0_bxm2_60_u;
+   TH2F *h_posthcal_jetetaphi_bxm1_120_u, *h_posthcal_jetetaphi_bx0_bxm1_120_u, *h_posthcal_jetetaphi_bxm2_120_u, *h_posthcal_jetetaphi_bx0_bxm2_120_u;
+   TH2F *h_posthcal_jetetaphi_bxm1_180_u, *h_posthcal_jetetaphi_bx0_bxm1_180_u, *h_posthcal_jetetaphi_bxm2_180_u, *h_posthcal_jetetaphi_bx0_bxm2_180_u;
+
+   TH1F *h_prehcal_jetet_bx0_f, *h_prehcal_jetet_bxm1_60_f, *h_prehcal_jetet_bx0_bxm1_60_f, *h_prehcal_jetet_bxm2_60_f, *h_prehcal_jetet_bx0_bxm2_60_f;
+   TH1F *h_prehcal_jetet_bxm1_120_f, *h_prehcal_jetet_bx0_bxm1_120_f, *h_prehcal_jetet_bxm2_120_f, *h_prehcal_jetet_bx0_bxm2_120_f;
+   TH1F *h_prehcal_jetet_bxm1_180_f, *h_prehcal_jetet_bx0_bxm1_180_f, *h_prehcal_jetet_bxm2_180_f, *h_prehcal_jetet_bx0_bxm2_180_f;
+
+   TH1F *h_prehcal_jeteta_bx0_f, *h_prehcal_jeteta_bxm1_60_f, *h_prehcal_jeteta_bx0_bxm1_60_f, *h_prehcal_jeteta_bxm2_60_f, *h_prehcal_jeteta_bx0_bxm2_60_f;
+   TH1F *h_prehcal_jeteta_bxm1_120_f, *h_prehcal_jeteta_bx0_bxm1_120_f, *h_prehcal_jeteta_bxm2_120_f, *h_prehcal_jeteta_bx0_bxm2_120_f;
+   TH1F *h_prehcal_jeteta_bxm1_180_f, *h_prehcal_jeteta_bx0_bxm1_180_f, *h_prehcal_jeteta_bxm2_180_f, *h_prehcal_jeteta_bx0_bxm2_180_f;
+
+   TH2F *h_prehcal_jetetaphi_bx0_f, *h_prehcal_jetetaphi_bxm1_60_f, *h_prehcal_jetetaphi_bx0_bxm1_60_f, *h_prehcal_jetetaphi_bxm2_60_f, *h_prehcal_jetetaphi_bx0_bxm2_60_f;
+   TH2F *h_prehcal_jetetaphi_bxm1_120_f, *h_prehcal_jetetaphi_bx0_bxm1_120_f, *h_prehcal_jetetaphi_bxm2_120_f, *h_prehcal_jetetaphi_bx0_bxm2_120_f;
+   TH2F *h_prehcal_jetetaphi_bxm1_180_f, *h_prehcal_jetetaphi_bx0_bxm1_180_f, *h_prehcal_jetetaphi_bxm2_180_f, *h_prehcal_jetetaphi_bx0_bxm2_180_f;
+
+   TH1F *h_posthcal_jetet_bx0_f, *h_posthcal_jetet_bxm1_60_f, *h_posthcal_jetet_bx0_bxm1_60_f, *h_posthcal_jetet_bxm2_60_f, *h_posthcal_jetet_bx0_bxm2_60_f;
+   TH1F *h_posthcal_jetet_bxm1_120_f, *h_posthcal_jetet_bx0_bxm1_120_f, *h_posthcal_jetet_bxm2_120_f, *h_posthcal_jetet_bx0_bxm2_120_f;
+   TH1F *h_posthcal_jetet_bxm1_180_f, *h_posthcal_jetet_bx0_bxm1_180_f, *h_posthcal_jetet_bxm2_180_f, *h_posthcal_jetet_bx0_bxm2_180_f;
+
+   TH1F *h_posthcal_jeteta_bx0_f, *h_posthcal_jeteta_bxm1_60_f, *h_posthcal_jeteta_bx0_bxm1_60_f, *h_posthcal_jeteta_bxm2_60_f, *h_posthcal_jeteta_bx0_bxm2_60_f;
+   TH1F *h_posthcal_jeteta_bxm1_120_f, *h_posthcal_jeteta_bx0_bxm1_120_f, *h_posthcal_jeteta_bxm2_120_f, *h_posthcal_jeteta_bx0_bxm2_120_f;
+   TH1F *h_posthcal_jeteta_bxm1_180_f, *h_posthcal_jeteta_bx0_bxm1_180_f, *h_posthcal_jeteta_bxm2_180_f, *h_posthcal_jeteta_bx0_bxm2_180_f;
+
+   TH2F *h_posthcal_jetetaphi_bx0_f, *h_posthcal_jetetaphi_bxm1_60_f, *h_posthcal_jetetaphi_bx0_bxm1_60_f, *h_posthcal_jetetaphi_bxm2_60_f, *h_posthcal_jetetaphi_bx0_bxm2_60_f;
+   TH2F *h_posthcal_jetetaphi_bxm1_120_f, *h_posthcal_jetetaphi_bx0_bxm1_120_f, *h_posthcal_jetetaphi_bxm2_120_f, *h_posthcal_jetetaphi_bx0_bxm2_120_f;
+   TH2F *h_posthcal_jetetaphi_bxm1_180_f, *h_posthcal_jetetaphi_bx0_bxm1_180_f, *h_posthcal_jetetaphi_bxm2_180_f, *h_posthcal_jetetaphi_bx0_bxm2_180_f;
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
