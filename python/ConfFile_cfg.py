@@ -4,7 +4,7 @@ process = cms.Process("L1Trigger")
 
 process.load("FWCore.MessageService.MessageLogger_cfi")
 
-process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
+process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(100) )
 
 process.source = cms.Source("PoolSource",
                                 # replace 'myfile.root' with the source file you want to use
@@ -20,7 +20,7 @@ process.demo = cms.EDAnalyzer('UnprefirableAnalyzer',
                               )
 
 
-process.MessageLogger.cerr.FwkReport.reportEvery = 10000
+#process.MessageLogger.cerr.FwkReport.reportEvery = 10000
 
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 from Configuration.AlCa.GlobalTag import GlobalTag
