@@ -34,6 +34,8 @@
 #include "FWCore/Utilities/interface/InputTag.h"
 #include "DataFormats/L1Trigger/interface/BXVector.h"
 #include "DataFormats/L1Trigger/interface/Jet.h"
+#include "DataFormats/L1Trigger/interface/Tau.h"
+#include "DataFormats/L1Trigger/interface/EtSum.h"
 #include "DataFormats/L1Trigger/interface/L1JetParticle.h"
 #include "DataFormats/L1Trigger/interface/L1JetParticleFwd.h"
 #include "DataFormats/L1TGlobal/interface/GlobalAlgBlk.h"
@@ -51,7 +53,6 @@
 #include "CommonTools/UtilAlgos/interface/TFileService.h"
 #include "L1Trigger/GlobalTriggerAnalyzer/interface/L1GtUtils.h"
 #include "PhysicsTools/PatUtils/interface/PATJetCorrExtractor.h"
-
 
 #include "TLorentzVector.h"
 #include "TROOT.h"
@@ -88,6 +89,8 @@ private:
   //edm::EDGetTokenT<BXVector<l1t::Jet>> stage2JetToken_;
   edm::EDGetTokenT<GlobalExtBlkBxCollection> UnprefirableEventToken_;
   const edm::EDGetTokenT<l1t::JetBxCollection> jetBXCollectionToken_; // l1 jets
+  const edm::EDGetTokenT<l1t::TauBxCollection> tauBXCollectionToken_; // l1 taus
+  const edm::EDGetTokenT<l1t::EtSumBxCollection> etsumBXCollectionToken_; // l1 met
   edm::EDGetTokenT< BXVector<GlobalAlgBlk> > gtAlgBlkToken;
   edm::Handle< BXVector<GlobalAlgBlk> > gtAlgBlkHandle;
   edm::EDGetTokenT<vector<pat::Jet>> slimmedJetsToken_; // reco jets to match to l1 jets
@@ -102,13 +105,16 @@ private:
   TTree *eventTree;
   int run_num;
   int lumi;
-  int event_num;
+  ULong64_t event_num;
   bool isUnprefirable;
   bool isFirstBunchInTrain;
   bool L1FinalOR_bxm1;
   vector<bool> trigger_bits;
   vector<TLorentzVector> reco_jets;
   vector<bool> reco_jetId;
+  vector<TLorentzVector> bxm1_jets;
+  vector<TLorentzVector> bxm1_taus;
+  double bxm1_etmhf_pt, bxm1_etmhf_phi;
   vector<TLorentzVector> match_l1_bx0;
   vector<TLorentzVector> match_l1_bxm1;
   vector<TLorentzVector> match_l1_bxm2;
@@ -127,6 +133,8 @@ private:
 UnprefirableAnalyzer::UnprefirableAnalyzer(const edm::ParameterSet& iConfig):
   UnprefirableEventToken_(consumes<GlobalExtBlkBxCollection>(edm::InputTag("simGtExtUnprefireable"))),
   jetBXCollectionToken_(consumes<l1t::JetBxCollection>(edm::InputTag("caloStage2Digis","Jet","RECO"))),
+  tauBXCollectionToken_(consumes<l1t::TauBxCollection>(edm::InputTag("caloStage2Digis","Tau","RECO"))),
+  etsumBXCollectionToken_(consumes<l1t::EtSumBxCollection>(edm::InputTag("caloStage2Digis","EtSum","RECO"))),
   gtAlgBlkToken( consumes< BXVector<GlobalAlgBlk> >(edm::InputTag("gtStage2Digis","","RECO")) ),
   l1GtMenuToken_(esConsumes<L1TUtmTriggerMenu, L1TUtmTriggerMenuRcd>())
 {
@@ -139,15 +147,16 @@ UnprefirableAnalyzer::UnprefirableAnalyzer(const edm::ParameterSet& iConfig):
   trgresultsORIGToken_ = consumes<edm::TriggerResults>( edm::InputTag("TriggerResults::HLT") );
 
   edm::Service<TFileService> fs;
-  
+ 
+  // TTree
   eventTree = fs->make<TTree>("eventTree", "Events");
 
   eventTree->Branch("run_num",    &run_num,     "run_num/I");
   eventTree->Branch("lumi",   &lumi,    "lumi/I");
-  eventTree->Branch("event_num",  &event_num,   "event_num/I");
-  eventTree->Branch("isUnprefirable",  &isUnprefirable,   "isUnprefirable/I");
-  eventTree->Branch("isFirstBunchInTrain",  &isFirstBunchInTrain,   "isFirstBunchInTrain/I");
-  eventTree->Branch("L1FinalOR_bxm1", &L1FinalOR_bxm1, "L1FinalOR_bxm1/I");
+  eventTree->Branch("event_num",  &event_num,   "event_num/l");
+  eventTree->Branch("isUnprefirable",  &isUnprefirable,   "isUnprefirable/B");
+  eventTree->Branch("isFirstBunchInTrain",  &isFirstBunchInTrain,   "isFirstBunchInTrain/B");
+  eventTree->Branch("L1FinalOR_bxm1", &L1FinalOR_bxm1, "L1FinalOR_bxm1/B");
   eventTree->Branch("idx_L1_FirstBunchBeforeTrain", &idx_L1_FirstBunchBeforeTrain, "idx_L1_FirstBunchBeforeTrain/I"); 
  
   eventTree->Branch("trigger_bits", "vector<bool>", &trigger_bits, 32000, 0);
@@ -155,12 +164,17 @@ UnprefirableAnalyzer::UnprefirableAnalyzer(const edm::ParameterSet& iConfig):
   eventTree->Branch("reco_jets", "vector<TLorentzVector>", &reco_jets, 32000, 0);
   eventTree->Branch("reco_jetId", "vector<bool>", &reco_jetId, 32000, 0);
 
+  eventTree->Branch("bxm1_jets", "vector<TLorentzVector>", &bxm1_jets, 32000, 0);
+  eventTree->Branch("bxm1_taus", "vector<TLorentzVector>", &bxm1_taus, 32000, 0);
+  eventTree->Branch("bxm1_etmhf_pt", &bxm1_etmhf_pt, "bxm1_etmhf_pt/D");
+  eventTree->Branch("bxm1_etmhf_phi", &bxm1_etmhf_phi, "bxm1_etmhf_phi/D");
   eventTree->Branch("match_l1_bx0", "vector<TLorentzVector>", &match_l1_bx0, 32000, 0);
   eventTree->Branch("match_l1_bxm1", "vector<TLorentzVector>", &match_l1_bxm1, 32000, 0);
   eventTree->Branch("match_l1_bxm2", "vector<TLorentzVector>", &match_l1_bxm2, 32000, 0);
   eventTree->Branch("match_l1_bx1", "vector<TLorentzVector>", &match_l1_bx1, 32000, 0);
   eventTree->Branch("match_l1_bx2", "vector<TLorentzVector>", &match_l1_bx2, 32000, 0);
-
+  
+ 
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE
   setupDataToken_ = esConsumes<SetupData, SetupRecord>();
 #endif
@@ -202,7 +216,6 @@ bool puppiJetID(const RecoJet& jet) {
   }
   return tmp;
 }
-
 
 
 // deltaR method (written using https://github.com/cms-sw/cmssw/blob/master/DataFormats/Math/interface/deltaR.h)
@@ -267,6 +280,8 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
   trigger_bits.clear();
   reco_jets.clear();
   reco_jetId.clear();
+  bxm1_jets.clear();
+  bxm1_taus.clear();
   match_l1_bx0.clear();
   match_l1_bxm1.clear();
   match_l1_bxm1.clear();
@@ -282,7 +297,7 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     unsigned int indx = keyval.second.getIndex();
     if(name.find("L1_FirstBunchBeforeTrain")!=string::npos) idx_L1_FirstBunchBeforeTrain = indx;
   }
- 
+
   // get reco jets and muons
   edm::Handle< std::vector<pat::Jet> > slimmedJets;
   iEvent.getByToken(slimmedJetsToken_,slimmedJets ); 
@@ -290,7 +305,6 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
   iEvent.getByToken(slimmedMuonsToken_,slimmedMuons );
 
   iEvent.getByToken(gtAlgBlkToken, gtAlgBlkHandle);
-
 
   //check whether any seed fired in bx=-1
   L1FinalOR_bxm1 = false;
@@ -301,9 +315,8 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     }
   }
 
-
-  //get HLT_IsoMu24 result
-  bool HLT_IsoMu24(false); 
+  //get HLT_AK8PFJet500 result
+  bool passHLT_AK8PFJet500(false); 
   edm::Handle<edm::TriggerResults> trigResults;
   iEvent.getByToken(trgresultsORIGToken_, trigResults);
   if( !trigResults.failedToGet() ) {
@@ -312,23 +325,22 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     for( int i_Trig = 0; i_Trig < N_Triggers; ++i_Trig ) {
       if (trigResults.product()->accept(i_Trig)) {
         TString TrigPath =trigName.triggerName(i_Trig);
-        if(TrigPath.Index("HLT_IsoMu24_v") >=0) HLT_IsoMu24=true; 
+        if(TrigPath.Index("HLT_AK8PFJet500") >=0) passHLT_AK8PFJet500=true; 
       }
     }
   }
- 
+
   auto menuRcd = iSetup.get<L1TUtmTriggerMenuRcd>();
   l1GtMenu = &menuRcd.get(L1TUtmTriggerMenuEventToken);
   algorithmMap = &(l1GtMenu->getAlgorithmMap());
   
   //FirstBunchInTrain
   isFirstBunchInTrain = false;
-  iEvent.getByToken(gtAlgBlkToken, gtAlgBlkHandle);
   if(gtAlgBlkHandle.isValid()){
     std::vector<GlobalAlgBlk>::const_iterator algBlk = gtAlgBlkHandle->begin(0);
     if(algBlk != gtAlgBlkHandle->end(0)){
       for (std::map<std::string, L1TUtmAlgorithm>::const_iterator itAlgo = algorithmMap->begin(); itAlgo != algorithmMap->end(); itAlgo++) {
-  std::string algName = itAlgo->first;
+        std::string algName = itAlgo->first;
         int algBit = itAlgo->second.getIndex();
         bool initialDecision = algBlk->getAlgoDecisionInitial(algBit);
         if(algBit==473 && initialDecision==1){
@@ -348,21 +360,54 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     }
   }
 
-  if(HLT_IsoMu24){
+  if(passHLT_AK8PFJet500){
+    
     edm::Handle<l1t::JetBxCollection> jetColl;
     iEvent.getByToken(jetBXCollectionToken_, jetColl);
     l1t::JetBxCollection jets;
     jets = (*jetColl.product());
+    for (auto it = jets.begin(-1); it!=jets.end(-1); it++){
+      if(it->pt() >= 120.){
+        //std::cout<<"jet: "<<it->pt()<<std::endl;
+        TLorentzVector temp;
+        temp.SetPtEtaPhiE(it->pt(), it->eta(), it->phi(), it->energy());
+        bxm1_jets.push_back(temp);
+      }
+    }
+
+    edm::Handle<l1t::TauBxCollection> tauColl;
+    iEvent.getByToken(tauBXCollectionToken_, tauColl);
+    l1t::TauBxCollection taus;
+    taus = (*tauColl.product());
+    for (auto it = taus.begin(-1); it!=taus.end(-1); it++){
+      if(it->pt() >= 34.){
+        //std::cout<<"tau: "<<it->pt()<<std::endl;
+        TLorentzVector temp;
+        temp.SetPtEtaPhiE(it->pt(), it->eta(), it->phi(), it->energy());
+        bxm1_taus.push_back(temp);
+      }
+    }
+
+    edm::Handle<l1t::EtSumBxCollection> etsumColl;
+    iEvent.getByToken(etsumBXCollectionToken_, etsumColl);
+    l1t::EtSumBxCollection etsums;
+    etsums = (*etsumColl.product());
+    for (auto it = etsums.begin(-1); it!=etsums.end(-1); it++){
+      if (l1t::EtSum::EtSumType::kMissingEtHF == it->getType() && it->pt() >= 90. ) {
+        //std::cout<<"etmhf: "<<it->pt()<<std::endl;
+        bxm1_etmhf_pt = it->pt();
+        bxm1_etmhf_phi = it->phi();
+      }
+    }
 
     // iterate through reco jets
     for(long unsigned int i = 0; i<(*slimmedJets).size(); i++){
-   
-      bool currentJetId = puppiJetID((*slimmedJets)[i]);
- 
-      if(((*slimmedJets)[i].pt()<30) || !(currentJetId)) continue;
- 
+     
+      reco_jetId.push_back(puppiJetID((*slimmedJets)[i]));
+      
       TLorentzVector reco_jet;
       reco_jet.SetPtEtaPhiE((*slimmedJets)[i].pt(), (*slimmedJets)[i].eta(), (*slimmedJets)[i].phi(), (*slimmedJets)[i].energy());
+      reco_jets.push_back(reco_jet); 
  
       TLorentzVector l1_jet_bx0; // keep track of matched l1 pt
       TLorentzVector l1_jet_bxm1;
@@ -377,36 +422,23 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
       bool match_bx1 = checkMatchBX((*slimmedJets)[i], jets, 1, &l1_jet_bx1);
       bool match_bx2 = checkMatchBX((*slimmedJets)[i], jets, 2, &l1_jet_bx2);
       
-      if (!((match_bx0) || (match_bxm1) || (match_bxm2) || (match_bx1) || (match_bx2))) continue;
-
-      reco_jets.push_back(reco_jet);
-      reco_jetId.push_back(currentJetId);
-
-      if(!match_bx0) {
-        l1_jet_bx0.SetPtEtaPhiE(0.0, 0.0, 0.0, 0.0);
+      if(match_bx0){
+        match_l1_bx0.push_back(l1_jet_bx0);
       }
-      match_l1_bx0.push_back(l1_jet_bx0);
-      if(!match_bxm1) {
-        l1_jet_bxm1.SetPtEtaPhiE(0.0, 0.0, 0.0, 0.0);
+      if(match_bxm1){
+        match_l1_bxm1.push_back(l1_jet_bxm1);
       }
-      match_l1_bxm1.push_back(l1_jet_bxm1);
-      if(!match_bxm2) {
-        l1_jet_bxm2.SetPtEtaPhiE(0.0, 0.0, 0.0, 0.0);
+      if(match_bxm2){
+        match_l1_bxm2.push_back(l1_jet_bxm2);
       }
-      match_l1_bxm2.push_back(l1_jet_bxm2);
-      if(!match_bx1) {
-        l1_jet_bx1.SetPtEtaPhiE(0.0, 0.0, 0.0, 0.0);
+      if(match_bx1){
+        match_l1_bx1.push_back(l1_jet_bx1);
       }
-      match_l1_bx1.push_back(l1_jet_bx1);
-      if(!match_bx2) {
-        l1_jet_bx2.SetPtEtaPhiE(0.0, 0.0, 0.0, 0.0);
+      if(match_bx2){
+        match_l1_bx2.push_back(l1_jet_bx2);
       }
-      match_l1_bx2.push_back(l1_jet_bx2);
-
     }
-    if(isFirstBunchInTrain || isUnprefirable) {
-      eventTree->Fill();
-    }
+    eventTree->Fill();
   }
 
 #ifdef THIS_IS_AN_EVENTSETUP_EXAMPLE

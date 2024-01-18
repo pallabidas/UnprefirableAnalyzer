@@ -26,53 +26,55 @@ public :
 
    TFile *fileName;
 
-   TH1F *h_prehcal_jetet_bx0_u, *h_prehcal_jetet_bxm1_60_u, *h_prehcal_jetet_bx0_bxm1_60_u, *h_prehcal_jetet_bxm2_60_u, *h_prehcal_jetet_bx0_bxm2_60_u;
-   TH1F *h_prehcal_jetet_bxm1_120_u, *h_prehcal_jetet_bx0_bxm1_120_u, *h_prehcal_jetet_bxm2_120_u, *h_prehcal_jetet_bx0_bxm2_120_u;
-   TH1F *h_prehcal_jetet_bxm1_180_u, *h_prehcal_jetet_bx0_bxm1_180_u, *h_prehcal_jetet_bxm2_180_u, *h_prehcal_jetet_bx0_bxm2_180_u;
+   TH1F *h_prehcal_dijet_bx0_u;
+   TH1F *h_prehcal_dijet_bx0_bxm1_u;
+   TH1F *h_prehcal_dijet_bx0_bxm1_case1_u, *h_prehcal_dijet_bx0_bxm1_case2_u, *h_prehcal_dijet_bx0_bxm1_case3_u, *h_prehcal_dijet_bx0_bxm1_case4_u;
+   TH1F *h_prehcal_jetet_bx0_u;
+   TH1F *h_prehcal_jetet_bx0_bxm1_u;
+   TH1F *h_prehcal_jetet_bx0_bxm1_case1_u, *h_prehcal_jetet_bx0_bxm1_case2_u, *h_prehcal_jetet_bx0_bxm1_case3_u, *h_prehcal_jetet_bx0_bxm1_case4_u;
+   TH1F *h_prehcal_jeteta_bx0_u;
+   TH1F *h_prehcal_jeteta_bx0_bxm1_u;
+   TH1F *h_prehcal_jeteta_bx0_bxm1_case1_u, *h_prehcal_jeteta_bx0_bxm1_case2_u, *h_prehcal_jeteta_bx0_bxm1_case3_u, *h_prehcal_jeteta_bx0_bxm1_case4_u;
+   TH2F *h_prehcal_jetetaphi_bx0_u;
+   TH2F *h_prehcal_jetetaphi_bx0_bxm1_u;
+   TH2F *h_prehcal_jetetaphi_bx0_bxm1_case1_u, *h_prehcal_jetetaphi_bx0_bxm1_case2_u, *h_prehcal_jetetaphi_bx0_bxm1_case3_u, *h_prehcal_jetetaphi_bx0_bxm1_case4_u;
+   TH1F *h_posthcal_dijet_bx0_u;
+   TH1F *h_posthcal_dijet_bx0_bxm1_u;
+   TH1F *h_posthcal_dijet_bx0_bxm1_case1_u, *h_posthcal_dijet_bx0_bxm1_case2_u, *h_posthcal_dijet_bx0_bxm1_case3_u, *h_posthcal_dijet_bx0_bxm1_case4_u;
+   TH1F *h_posthcal_jetet_bx0_u;
+   TH1F *h_posthcal_jetet_bx0_bxm1_u;
+   TH1F *h_posthcal_jetet_bx0_bxm1_case1_u, *h_posthcal_jetet_bx0_bxm1_case2_u, *h_posthcal_jetet_bx0_bxm1_case3_u, *h_posthcal_jetet_bx0_bxm1_case4_u;
+   TH1F *h_posthcal_jeteta_bx0_u;
+   TH1F *h_posthcal_jeteta_bx0_bxm1_u;
+   TH1F *h_posthcal_jeteta_bx0_bxm1_case1_u, *h_posthcal_jeteta_bx0_bxm1_case2_u, *h_posthcal_jeteta_bx0_bxm1_case3_u, *h_posthcal_jeteta_bx0_bxm1_case4_u;
+   TH2F *h_posthcal_jetetaphi_bx0_u;
+   TH2F *h_posthcal_jetetaphi_bx0_bxm1_u;
+   TH2F *h_posthcal_jetetaphi_bx0_bxm1_case1_u, *h_posthcal_jetetaphi_bx0_bxm1_case2_u, *h_posthcal_jetetaphi_bx0_bxm1_case3_u, *h_posthcal_jetetaphi_bx0_bxm1_case4_u;
 
-   TH1F *h_prehcal_jeteta_bx0_u, *h_prehcal_jeteta_bxm1_60_u, *h_prehcal_jeteta_bx0_bxm1_60_u, *h_prehcal_jeteta_bxm2_60_u, *h_prehcal_jeteta_bx0_bxm2_60_u;
-   TH1F *h_prehcal_jeteta_bxm1_120_u, *h_prehcal_jeteta_bx0_bxm1_120_u, *h_prehcal_jeteta_bxm2_120_u, *h_prehcal_jeteta_bx0_bxm2_120_u;
-   TH1F *h_prehcal_jeteta_bxm1_180_u, *h_prehcal_jeteta_bx0_bxm1_180_u, *h_prehcal_jeteta_bxm2_180_u, *h_prehcal_jeteta_bx0_bxm2_180_u;
-
-   TH2F *h_prehcal_jetetaphi_bx0_u, *h_prehcal_jetetaphi_bxm1_60_u, *h_prehcal_jetetaphi_bx0_bxm1_60_u, *h_prehcal_jetetaphi_bxm2_60_u, *h_prehcal_jetetaphi_bx0_bxm2_60_u;
-   TH2F *h_prehcal_jetetaphi_bxm1_120_u, *h_prehcal_jetetaphi_bx0_bxm1_120_u, *h_prehcal_jetetaphi_bxm2_120_u, *h_prehcal_jetetaphi_bx0_bxm2_120_u;
-   TH2F *h_prehcal_jetetaphi_bxm1_180_u, *h_prehcal_jetetaphi_bx0_bxm1_180_u, *h_prehcal_jetetaphi_bxm2_180_u, *h_prehcal_jetetaphi_bx0_bxm2_180_u;
-
-   TH1F *h_posthcal_jetet_bx0_u, *h_posthcal_jetet_bxm1_60_u, *h_posthcal_jetet_bx0_bxm1_60_u, *h_posthcal_jetet_bxm2_60_u, *h_posthcal_jetet_bx0_bxm2_60_u;
-   TH1F *h_posthcal_jetet_bxm1_120_u, *h_posthcal_jetet_bx0_bxm1_120_u, *h_posthcal_jetet_bxm2_120_u, *h_posthcal_jetet_bx0_bxm2_120_u;
-   TH1F *h_posthcal_jetet_bxm1_180_u, *h_posthcal_jetet_bx0_bxm1_180_u, *h_posthcal_jetet_bxm2_180_u, *h_posthcal_jetet_bx0_bxm2_180_u;
-
-   TH1F *h_posthcal_jeteta_bx0_u, *h_posthcal_jeteta_bxm1_60_u, *h_posthcal_jeteta_bx0_bxm1_60_u, *h_posthcal_jeteta_bxm2_60_u, *h_posthcal_jeteta_bx0_bxm2_60_u;
-   TH1F *h_posthcal_jeteta_bxm1_120_u, *h_posthcal_jeteta_bx0_bxm1_120_u, *h_posthcal_jeteta_bxm2_120_u, *h_posthcal_jeteta_bx0_bxm2_120_u;
-   TH1F *h_posthcal_jeteta_bxm1_180_u, *h_posthcal_jeteta_bx0_bxm1_180_u, *h_posthcal_jeteta_bxm2_180_u, *h_posthcal_jeteta_bx0_bxm2_180_u;
-
-   TH2F *h_posthcal_jetetaphi_bx0_u, *h_posthcal_jetetaphi_bxm1_60_u, *h_posthcal_jetetaphi_bx0_bxm1_60_u, *h_posthcal_jetetaphi_bxm2_60_u, *h_posthcal_jetetaphi_bx0_bxm2_60_u;
-   TH2F *h_posthcal_jetetaphi_bxm1_120_u, *h_posthcal_jetetaphi_bx0_bxm1_120_u, *h_posthcal_jetetaphi_bxm2_120_u, *h_posthcal_jetetaphi_bx0_bxm2_120_u;
-   TH2F *h_posthcal_jetetaphi_bxm1_180_u, *h_posthcal_jetetaphi_bx0_bxm1_180_u, *h_posthcal_jetetaphi_bxm2_180_u, *h_posthcal_jetetaphi_bx0_bxm2_180_u;
-
-   TH1F *h_prehcal_jetet_bx0_f, *h_prehcal_jetet_bxm1_60_f, *h_prehcal_jetet_bx0_bxm1_60_f, *h_prehcal_jetet_bxm2_60_f, *h_prehcal_jetet_bx0_bxm2_60_f;
-   TH1F *h_prehcal_jetet_bxm1_120_f, *h_prehcal_jetet_bx0_bxm1_120_f, *h_prehcal_jetet_bxm2_120_f, *h_prehcal_jetet_bx0_bxm2_120_f;
-   TH1F *h_prehcal_jetet_bxm1_180_f, *h_prehcal_jetet_bx0_bxm1_180_f, *h_prehcal_jetet_bxm2_180_f, *h_prehcal_jetet_bx0_bxm2_180_f;
-
-   TH1F *h_prehcal_jeteta_bx0_f, *h_prehcal_jeteta_bxm1_60_f, *h_prehcal_jeteta_bx0_bxm1_60_f, *h_prehcal_jeteta_bxm2_60_f, *h_prehcal_jeteta_bx0_bxm2_60_f;
-   TH1F *h_prehcal_jeteta_bxm1_120_f, *h_prehcal_jeteta_bx0_bxm1_120_f, *h_prehcal_jeteta_bxm2_120_f, *h_prehcal_jeteta_bx0_bxm2_120_f;
-   TH1F *h_prehcal_jeteta_bxm1_180_f, *h_prehcal_jeteta_bx0_bxm1_180_f, *h_prehcal_jeteta_bxm2_180_f, *h_prehcal_jeteta_bx0_bxm2_180_f;
-
-   TH2F *h_prehcal_jetetaphi_bx0_f, *h_prehcal_jetetaphi_bxm1_60_f, *h_prehcal_jetetaphi_bx0_bxm1_60_f, *h_prehcal_jetetaphi_bxm2_60_f, *h_prehcal_jetetaphi_bx0_bxm2_60_f;
-   TH2F *h_prehcal_jetetaphi_bxm1_120_f, *h_prehcal_jetetaphi_bx0_bxm1_120_f, *h_prehcal_jetetaphi_bxm2_120_f, *h_prehcal_jetetaphi_bx0_bxm2_120_f;
-   TH2F *h_prehcal_jetetaphi_bxm1_180_f, *h_prehcal_jetetaphi_bx0_bxm1_180_f, *h_prehcal_jetetaphi_bxm2_180_f, *h_prehcal_jetetaphi_bx0_bxm2_180_f;
-
-   TH1F *h_posthcal_jetet_bx0_f, *h_posthcal_jetet_bxm1_60_f, *h_posthcal_jetet_bx0_bxm1_60_f, *h_posthcal_jetet_bxm2_60_f, *h_posthcal_jetet_bx0_bxm2_60_f;
-   TH1F *h_posthcal_jetet_bxm1_120_f, *h_posthcal_jetet_bx0_bxm1_120_f, *h_posthcal_jetet_bxm2_120_f, *h_posthcal_jetet_bx0_bxm2_120_f;
-   TH1F *h_posthcal_jetet_bxm1_180_f, *h_posthcal_jetet_bx0_bxm1_180_f, *h_posthcal_jetet_bxm2_180_f, *h_posthcal_jetet_bx0_bxm2_180_f;
-
-   TH1F *h_posthcal_jeteta_bx0_f, *h_posthcal_jeteta_bxm1_60_f, *h_posthcal_jeteta_bx0_bxm1_60_f, *h_posthcal_jeteta_bxm2_60_f, *h_posthcal_jeteta_bx0_bxm2_60_f;
-   TH1F *h_posthcal_jeteta_bxm1_120_f, *h_posthcal_jeteta_bx0_bxm1_120_f, *h_posthcal_jeteta_bxm2_120_f, *h_posthcal_jeteta_bx0_bxm2_120_f;
-   TH1F *h_posthcal_jeteta_bxm1_180_f, *h_posthcal_jeteta_bx0_bxm1_180_f, *h_posthcal_jeteta_bxm2_180_f, *h_posthcal_jeteta_bx0_bxm2_180_f;
-
-   TH2F *h_posthcal_jetetaphi_bx0_f, *h_posthcal_jetetaphi_bxm1_60_f, *h_posthcal_jetetaphi_bx0_bxm1_60_f, *h_posthcal_jetetaphi_bxm2_60_f, *h_posthcal_jetetaphi_bx0_bxm2_60_f;
-   TH2F *h_posthcal_jetetaphi_bxm1_120_f, *h_posthcal_jetetaphi_bx0_bxm1_120_f, *h_posthcal_jetetaphi_bxm2_120_f, *h_posthcal_jetetaphi_bx0_bxm2_120_f;
-   TH2F *h_posthcal_jetetaphi_bxm1_180_f, *h_posthcal_jetetaphi_bx0_bxm1_180_f, *h_posthcal_jetetaphi_bxm2_180_f, *h_posthcal_jetetaphi_bx0_bxm2_180_f;
+   TH1F *h_prehcal_dijet_bx0_f;
+   TH1F *h_prehcal_dijet_bx0_bxm1_f;
+   TH1F *h_prehcal_dijet_bx0_bxm1_case1_f, *h_prehcal_dijet_bx0_bxm1_case2_f, *h_prehcal_dijet_bx0_bxm1_case3_f, *h_prehcal_dijet_bx0_bxm1_case4_f;
+   TH1F *h_prehcal_jetet_bx0_f;
+   TH1F *h_prehcal_jetet_bx0_bxm1_f;
+   TH1F *h_prehcal_jetet_bx0_bxm1_case1_f, *h_prehcal_jetet_bx0_bxm1_case2_f, *h_prehcal_jetet_bx0_bxm1_case3_f, *h_prehcal_jetet_bx0_bxm1_case4_f;
+   TH1F *h_prehcal_jeteta_bx0_f;
+   TH1F *h_prehcal_jeteta_bx0_bxm1_f;
+   TH1F *h_prehcal_jeteta_bx0_bxm1_case1_f, *h_prehcal_jeteta_bx0_bxm1_case2_f, *h_prehcal_jeteta_bx0_bxm1_case3_f, *h_prehcal_jeteta_bx0_bxm1_case4_f;
+   TH2F *h_prehcal_jetetaphi_bx0_f;
+   TH2F *h_prehcal_jetetaphi_bx0_bxm1_f;
+   TH2F *h_prehcal_jetetaphi_bx0_bxm1_case1_f, *h_prehcal_jetetaphi_bx0_bxm1_case2_f, *h_prehcal_jetetaphi_bx0_bxm1_case3_f, *h_prehcal_jetetaphi_bx0_bxm1_case4_f;
+   TH1F *h_posthcal_dijet_bx0_f;
+   TH1F *h_posthcal_dijet_bx0_bxm1_f;
+   TH1F *h_posthcal_dijet_bx0_bxm1_case1_f, *h_posthcal_dijet_bx0_bxm1_case2_f, *h_posthcal_dijet_bx0_bxm1_case3_f, *h_posthcal_dijet_bx0_bxm1_case4_f;
+   TH1F *h_posthcal_jetet_bx0_f;
+   TH1F *h_posthcal_jetet_bx0_bxm1_f;
+   TH1F *h_posthcal_jetet_bx0_bxm1_case1_f, *h_posthcal_jetet_bx0_bxm1_case2_f, *h_posthcal_jetet_bx0_bxm1_case3_f, *h_posthcal_jetet_bx0_bxm1_case4_f;
+   TH1F *h_posthcal_jeteta_bx0_f;
+   TH1F *h_posthcal_jeteta_bx0_bxm1_f;
+   TH1F *h_posthcal_jeteta_bx0_bxm1_case1_f, *h_posthcal_jeteta_bx0_bxm1_case2_f, *h_posthcal_jeteta_bx0_bxm1_case3_f, *h_posthcal_jeteta_bx0_bxm1_case4_f;
+   TH2F *h_posthcal_jetetaphi_bx0_f;
+   TH2F *h_posthcal_jetetaphi_bx0_bxm1_f;
+   TH2F *h_posthcal_jetetaphi_bx0_bxm1_case1_f, *h_posthcal_jetetaphi_bx0_bxm1_case2_f, *h_posthcal_jetetaphi_bx0_bxm1_case3_f, *h_posthcal_jetetaphi_bx0_bxm1_case4_f;
 
 // Fixed size dimensions of array or collections stored in the TTree if any.
 
@@ -87,6 +89,10 @@ public :
    vector<bool>    *trigger_bits;
    vector<TLorentzVector> *reco_jets;
    vector<bool>    *reco_jetId;
+   vector<TLorentzVector> *bxm1_jets;
+   vector<TLorentzVector> *bxm1_taus;
+   Double_t bxm1_etmhf_pt;
+   Double_t bxm1_etmhf_phi;
    vector<TLorentzVector> *match_l1_bx0;
    vector<TLorentzVector> *match_l1_bxm1;
    vector<TLorentzVector> *match_l1_bxm2;
@@ -104,6 +110,10 @@ public :
    TBranch        *b_trigger_bits;   //!
    TBranch        *b_reco_jets;   //!
    TBranch        *b_reco_jetId;   //!
+   TBranch        *b_bxm1_jets;   //!
+   TBranch        *b_bxm1_taus;   //!
+   TBranch        *b_bxm1_etmhf_pt;   //!
+   TBranch        *b_bxm1_etmhf_phi;   //!
    TBranch        *b_match_l1_bx0;   //!
    TBranch        *b_match_l1_bxm1;   //!
    TBranch        *b_match_l1_bxm2;   //!
@@ -205,6 +215,10 @@ void postan::Init(TTree *tree)
    fChain->SetBranchAddress("trigger_bits", &trigger_bits, &b_trigger_bits);
    fChain->SetBranchAddress("reco_jets", &reco_jets, &b_reco_jets);
    fChain->SetBranchAddress("reco_jetId", &reco_jetId, &b_reco_jetId);
+   fChain->SetBranchAddress("bxm1_jets", &bxm1_jets, &b_bxm1_jets);
+   fChain->SetBranchAddress("bxm1_taus", &bxm1_taus, &b_bxm1_taus);
+   fChain->SetBranchAddress("bxm1_etmhf_pt", &bxm1_etmhf_pt, &b_bxm1_etmhf_pt);
+   fChain->SetBranchAddress("bxm1_etmhf_phi", &bxm1_etmhf_phi, &b_bxm1_etmhf_phi);
    fChain->SetBranchAddress("match_l1_bx0", &match_l1_bx0, &b_match_l1_bx0);
    fChain->SetBranchAddress("match_l1_bxm1", &match_l1_bxm1, &b_match_l1_bxm1);
    fChain->SetBranchAddress("match_l1_bxm2", &match_l1_bxm2, &b_match_l1_bxm2);
