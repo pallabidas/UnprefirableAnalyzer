@@ -53,7 +53,7 @@ void postan::Loop()
       nb = fChain->GetEntry(jentry);   nbytes += nb;
 
       // if (Cut(ientry) < 0) continue;
-      // L1_SingleJet180: 309, L1_ETMHF90: 420, L1_SingleTau120er2p1: 263, L1_SingleIsoTau32er2p1: 261, L1_DoubleIsoTau34er2p1: 270
+      // L1_SingleJet180: 309, L1_ETMHF90: 420, L1_SingleTau120er2p1: 263, L1_SingleIsoTau32er2p1: 261 (prescale 0), L1_DoubleIsoTau34er2p1: 270
 
       bool preHCAL =  (run_num < 368822) ? true : false;
       //std::cout<<run_num<<"\t"<<preHCAL<<std::endl;
@@ -76,19 +76,24 @@ void postan::Loop()
          j2.SetPtEtaPhiE((*reco_jets)[1].Pt(), (*reco_jets)[1].Eta(), (*reco_jets)[1].Phi(), (*reco_jets)[1].E());
          if(((j1+j2).M() > 500.) && (phiAbs(j1.Phi(), j2.Phi()) > 2.7)){
 
-            vector<bool> bxm1_jet, bxm1_tau, bxm1_etm;
-            bxm1_jet.clear(); bxm1_tau.clear(); bxm1_etm.clear();
-            bool bxm1_jet_temp = false, bxm1_tau_temp = false, bxm1_etm_temp = false;
+            vector<bool> bxm1_jet, bxm1_tau, bxm1_isotau, bxm1_etm;
+            bxm1_jet.clear(); bxm1_tau.clear(); bxm1_isotau.clear(); bxm1_etm.clear();
+            bool bxm1_jet_temp, bxm1_tau_temp, bxm1_isotau_temp, bxm1_etm_temp;
             for(unsigned int i = 0; i < reco_jets->size(); i++){
+               bxm1_jet_temp = false; bxm1_tau_temp = false; bxm1_isotau_temp = false; bxm1_etm_temp = false;
                for(unsigned int j = 0; j < bxm1_jets->size(); j++){
                   if(deltaR((*reco_jets)[i], (*bxm1_jets)[j]) < 0.4) bxm1_jet_temp = true;
                }
                for(unsigned int j = 0; j < bxm1_taus->size(); j++){
                   if(deltaR((*reco_jets)[i], (*bxm1_taus)[j]) < 0.4) bxm1_tau_temp = true;
                }
+               for(unsigned int j = 0; j < bxm1_isotaus->size(); j++){
+                  if(deltaR((*reco_jets)[i], (*bxm1_isotaus)[j]) < 0.4) bxm1_isotau_temp = true;
+               }
                if(phiAbs((*reco_jets)[i].Phi(), bxm1_etmhf_phi) < 0.4) bxm1_etm_temp = true;
                bxm1_jet.push_back(bxm1_jet_temp);
                bxm1_tau.push_back(bxm1_tau_temp);
+               bxm1_isotau.push_back(bxm1_isotau_temp);
                bxm1_etm.push_back(bxm1_etm_temp);
             }
 
@@ -123,10 +128,10 @@ void postan::Loop()
                if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && (*trigger_bits)[263] && !preHCAL) {
                   h_posthcal_dijet_bx0_bxm1_case3_u->Fill((j1+j2).M());
                }
-               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && preHCAL) {
+               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (bxm1_isotau[0] || bxm1_isotau[1]) && preHCAL) {
                   h_prehcal_dijet_bx0_bxm1_case4_u->Fill((j1+j2).M());
                }
-               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && !preHCAL) {
+               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (bxm1_isotau[0] || bxm1_isotau[1]) && !preHCAL) {
                   h_posthcal_dijet_bx0_bxm1_case4_u->Fill((j1+j2).M());
                }
                
@@ -191,12 +196,12 @@ void postan::Loop()
                      h_posthcal_jeteta_bx0_bxm1_case3_u->Fill((*reco_jets)[i].Eta());  
                      h_posthcal_jetetaphi_bx0_bxm1_case3_u->Fill((*reco_jets)[i].Eta(), (*reco_jets)[i].Phi()); 
                   }
-                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && bxm1_tau[i] && preHCAL) {
+                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && bxm1_isotau[i] && preHCAL) {
                      h_prehcal_jetet_bx0_bxm1_case4_u->Fill((*reco_jets)[i].Pt());
                      h_prehcal_jeteta_bx0_bxm1_case4_u->Fill((*reco_jets)[i].Eta());
                      h_prehcal_jetetaphi_bx0_bxm1_case4_u->Fill((*reco_jets)[i].Eta(), (*reco_jets)[i].Phi());
                   }
-                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && bxm1_tau[i] && !preHCAL) {
+                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && bxm1_isotau[i] && !preHCAL) {
                      h_posthcal_jetet_bx0_bxm1_case4_u->Fill((*reco_jets)[i].Pt());
                      h_posthcal_jeteta_bx0_bxm1_case4_u->Fill((*reco_jets)[i].Eta());
                      h_posthcal_jetetaphi_bx0_bxm1_case4_u->Fill((*reco_jets)[i].Eta(), (*reco_jets)[i].Phi());
@@ -234,10 +239,10 @@ void postan::Loop()
                if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && (*trigger_bits)[263] && !preHCAL) {
                   h_posthcal_dijet_bx0_bxm1_case3_f->Fill((j1+j2).M());
                }
-               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && preHCAL) {
+               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (bxm1_isotau[0] || bxm1_isotau[1]) && preHCAL) {
                   h_prehcal_dijet_bx0_bxm1_case4_f->Fill((j1+j2).M());
                }
-               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && !preHCAL) {
+               if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (bxm1_isotau[0] || bxm1_isotau[1]) && !preHCAL) {
                   h_posthcal_dijet_bx0_bxm1_case4_f->Fill((j1+j2).M());
                }
 
@@ -292,12 +297,12 @@ void postan::Loop()
                      h_posthcal_jeteta_bx0_bxm1_case3_f->Fill((*reco_jets)[i].Eta());
                      h_posthcal_jetetaphi_bx0_bxm1_case3_f->Fill((*reco_jets)[i].Eta(), (*reco_jets)[i].Phi());
                   }
-                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && bxm1_tau[i] && preHCAL) {
+                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && bxm1_isotau[i] && preHCAL) {
                      h_prehcal_jetet_bx0_bxm1_case4_f->Fill((*reco_jets)[i].Pt());
                      h_prehcal_jeteta_bx0_bxm1_case4_f->Fill((*reco_jets)[i].Eta());
                      h_prehcal_jetetaphi_bx0_bxm1_case4_f->Fill((*reco_jets)[i].Eta(), (*reco_jets)[i].Phi());
                   }
-                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && (*trigger_bits)[270] && bxm1_tau[i] && !preHCAL) {
+                  if(!(*trigger_bits)[420] && !(*trigger_bits)[309] && !(*trigger_bits)[263] && bxm1_isotau[i] && !preHCAL) {
                      h_posthcal_jetet_bx0_bxm1_case4_f->Fill((*reco_jets)[i].Pt());
                      h_posthcal_jeteta_bx0_bxm1_case4_f->Fill((*reco_jets)[i].Eta());
                      h_posthcal_jetetaphi_bx0_bxm1_case4_f->Fill((*reco_jets)[i].Eta(), (*reco_jets)[i].Phi());

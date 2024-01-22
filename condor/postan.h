@@ -91,6 +91,7 @@ public :
    vector<bool>    *reco_jetId;
    vector<TLorentzVector> *bxm1_jets;
    vector<TLorentzVector> *bxm1_taus;
+   vector<TLorentzVector> *bxm1_isotaus;
    Double_t bxm1_etmhf_pt;
    Double_t bxm1_etmhf_phi;
    vector<TLorentzVector> *match_l1_bx0;
@@ -112,6 +113,7 @@ public :
    TBranch        *b_reco_jetId;   //!
    TBranch        *b_bxm1_jets;   //!
    TBranch        *b_bxm1_taus;   //!
+   TBranch        *b_bxm1_isotaus;   //!
    TBranch        *b_bxm1_etmhf_pt;   //!
    TBranch        *b_bxm1_etmhf_phi;   //!
    TBranch        *b_match_l1_bx0;   //!
@@ -194,6 +196,9 @@ void postan::Init(TTree *tree)
    trigger_bits = 0;
    reco_jets = 0;
    reco_jetId = 0;
+   bxm1_jets = 0;
+   bxm1_taus = 0;
+   bxm1_isotaus = 0;
    match_l1_bx0 = 0;
    match_l1_bxm1 = 0;
    match_l1_bxm2 = 0;
@@ -217,6 +222,7 @@ void postan::Init(TTree *tree)
    fChain->SetBranchAddress("reco_jetId", &reco_jetId, &b_reco_jetId);
    fChain->SetBranchAddress("bxm1_jets", &bxm1_jets, &b_bxm1_jets);
    fChain->SetBranchAddress("bxm1_taus", &bxm1_taus, &b_bxm1_taus);
+   fChain->SetBranchAddress("bxm1_isotaus", &bxm1_isotaus, &b_bxm1_isotaus);
    fChain->SetBranchAddress("bxm1_etmhf_pt", &bxm1_etmhf_pt, &b_bxm1_etmhf_pt);
    fChain->SetBranchAddress("bxm1_etmhf_phi", &bxm1_etmhf_phi, &b_bxm1_etmhf_phi);
    fChain->SetBranchAddress("match_l1_bx0", &match_l1_bx0, &b_match_l1_bx0);

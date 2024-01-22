@@ -114,6 +114,7 @@ private:
   vector<bool> reco_jetId;
   vector<TLorentzVector> bxm1_jets;
   vector<TLorentzVector> bxm1_taus;
+  vector<TLorentzVector> bxm1_isotaus;
   double bxm1_etmhf_pt, bxm1_etmhf_phi;
   vector<TLorentzVector> match_l1_bx0;
   vector<TLorentzVector> match_l1_bxm1;
@@ -166,6 +167,7 @@ UnprefirableAnalyzer::UnprefirableAnalyzer(const edm::ParameterSet& iConfig):
 
   eventTree->Branch("bxm1_jets", "vector<TLorentzVector>", &bxm1_jets, 32000, 0);
   eventTree->Branch("bxm1_taus", "vector<TLorentzVector>", &bxm1_taus, 32000, 0);
+  eventTree->Branch("bxm1_isotaus", "vector<TLorentzVector>", &bxm1_isotaus, 32000, 0);
   eventTree->Branch("bxm1_etmhf_pt", &bxm1_etmhf_pt, "bxm1_etmhf_pt/D");
   eventTree->Branch("bxm1_etmhf_phi", &bxm1_etmhf_phi, "bxm1_etmhf_phi/D");
   eventTree->Branch("match_l1_bx0", "vector<TLorentzVector>", &match_l1_bx0, 32000, 0);
@@ -282,6 +284,7 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
   reco_jetId.clear();
   bxm1_jets.clear();
   bxm1_taus.clear();
+  bxm1_isotaus.clear();
   match_l1_bx0.clear();
   match_l1_bxm1.clear();
   match_l1_bxm1.clear();
@@ -367,8 +370,7 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     l1t::JetBxCollection jets;
     jets = (*jetColl.product());
     for (auto it = jets.begin(-1); it!=jets.end(-1); it++){
-      if(it->pt() >= 120.){
-        //std::cout<<"jet: "<<it->pt()<<std::endl;
+      if(it->pt() >= 180.){  // SingleJet180
         TLorentzVector temp;
         temp.SetPtEtaPhiE(it->pt(), it->eta(), it->phi(), it->energy());
         bxm1_jets.push_back(temp);
@@ -380,11 +382,15 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     l1t::TauBxCollection taus;
     taus = (*tauColl.product());
     for (auto it = taus.begin(-1); it!=taus.end(-1); it++){
-      if(it->pt() >= 34.){
-        //std::cout<<"tau: "<<it->pt()<<std::endl;
+      if(it->pt() >= 120.){  // SingleTau120
         TLorentzVector temp;
         temp.SetPtEtaPhiE(it->pt(), it->eta(), it->phi(), it->energy());
         bxm1_taus.push_back(temp);
+      }
+      if(it->pt() >= 34. && it->hwIso()){  // SingleIsoTau34
+        TLorentzVector temp;
+        temp.SetPtEtaPhiE(it->pt(), it->eta(), it->phi(), it->energy());
+        bxm1_isotaus.push_back(temp);
       }
     }
 
@@ -393,8 +399,7 @@ void UnprefirableAnalyzer::analyze(const edm::Event& iEvent, const edm::EventSet
     l1t::EtSumBxCollection etsums;
     etsums = (*etsumColl.product());
     for (auto it = etsums.begin(-1); it!=etsums.end(-1); it++){
-      if (l1t::EtSum::EtSumType::kMissingEtHF == it->getType() && it->pt() >= 90. ) {
-        //std::cout<<"etmhf: "<<it->pt()<<std::endl;
+      if (l1t::EtSum::EtSumType::kMissingEtHF == it->getType() && it->pt() >= 90. ) {  // ETMHF90
         bxm1_etmhf_pt = it->pt();
         bxm1_etmhf_phi = it->phi();
       }
